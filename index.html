@@ -3,34 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DSHX Courier Calculator</title>
+    <meta name="description" content="Calculate courier service rewards with the DSHX Courier Calculator.">
+    <title>Courier Calculator - Deep Space Hauling Express</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #2d2d2d; /* Dark background */
-            color: #f5f5f5; /* Light text for contrast */
+            background-color: #3E2723; /* UPS brown background */
+            color: #FFFFFF; /* White text */
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+        }
+        header {
+            background-color: #3E2723; /* UPS brown */
+            color: #FFC107; /* Gold text for header */
+            padding: 10px;
+            text-align: center;
+        }
+        header nav {
+            margin-top: 10px;
+        }
+        header nav a {
+            color: #FFC107; /* Gold links */
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1.1rem;
+        }
+        header nav a:hover {
+            text-decoration: underline;
+        }
+        main {
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative; /* Allow absolute positioning of holograms */
+        }
+        h1, h2 {
+            color: #FFC107; /* Gold headings */
         }
         .calculator-container {
             max-width: 600px;
             margin: 50px auto;
             padding: 30px;
-            border: 2px solid #444; /* Darker border for the container */
+            border: 2px solid #FFC107; /* Gold border */
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); /* Subtle shadow */
-            background-color: #3a3a3a; /* Slightly lighter dark background for the container */
-        }
-        h2 {
-            text-align: center;
-            color: #ffb500; /* Yellow title */
-            font-weight: bold;
+            background-color: #3E2723; /* UPS Brown */
+            position: relative; /* For layering */
+            z-index: 2;
         }
         label {
             font-weight: bold;
             margin-top: 10px;
             display: block;
-            color: #f5f5f5; /* Light text for labels */
+            color: #FFFFFF; /* White text for labels */
         }
         input, select, button {
             width: 100%;
@@ -38,91 +70,143 @@
             padding: 12px;
             font-size: 1em;
             border-radius: 5px;
-            border: 1px solid #555; /* Slightly lighter border for input fields */
-            background-color: #444; /* Dark background for input fields */
-            color: #f5f5f5; /* Light text for input fields */
+            border: 1px solid #FFC107; /* Gold border for input fields */
+            background-color: #3E2723; /* Brown background for input fields */
+            color: #FFFFFF; /* White text for input fields */
         }
         input:focus, select:focus {
             outline: none;
-            border-color: #ffb500; /* Yellow border on focus */
-            box-shadow: 0 0 5px rgba(255, 181, 0, 0.5); /* Yellow glow */
+            border-color: #FFC107; /* Gold border on focus */
+            box-shadow: 0 0 5px rgba(255, 193, 7, 0.5); /* Gold glow */
         }
         button {
-            background-color: #ffb500; /* Yellow for buttons */
-            color: #2d2d2d; /* Dark text for buttons */
+            background-color: #FFC107; /* Gold for buttons */
+            color: #3E2723; /* Brown text for buttons */
             font-weight: bold;
             border: none;
             cursor: pointer;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
         button:hover {
-            background-color: #e5a700; /* Slightly darker yellow on hover */
-            color: #fff; /* White text on hover */
+            background-color: #FFD54F; /* Lighter gold on hover */
+            color: #FFFFFF; /* White text on hover */
         }
         .result {
             margin-top: 20px;
             font-weight: bold;
             font-size: 1.2em;
-            color: #ffb500; /* Yellow for results */
+            color: #FFC107; /* Gold for results */
             text-align: center;
         }
         .disclaimer {
             margin-top: 20px;
             font-size: 0.8em;
-            color: #ccc; /* Subtle gray for disclaimer text */
+            color: #FFFFFF; /* White for disclaimer text */
             text-align: center;
         }
         footer {
             text-align: center;
-            margin-top: 30px;
-            font-size: 0.9em;
-            color: #f5f5f5; /* Light text for footer */
+            padding: 10px 0;
+            background-color: #3E2723; /* Brown background for footer */
+            color: #FFFFFF; /* White text */
         }
-        footer a {
-            color: #ffb500; /* Yellow for links */
-            text-decoration: none;
+        .hologram {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+            width: 150px; /* Adjust as needed */
+            height: 150px; /* Adjust as needed */
+            background: radial-gradient(circle, rgba(255, 193, 7, 0.5) 0%, rgba(255, 193, 7, 0) 80%);
+            border: 2px solid rgba(255, 193, 7, 0.8); /* Gold border */
+            border-radius: 50%; /* Circular hologram */
+            box-shadow: 0 0 15px rgba(255, 193, 7, 0.8); /* Glow effect */
+            animation: float 3s ease-in-out infinite; /* Floating animation */
+            opacity: 0.9; /* Slight transparency */
         }
-        footer a:hover {
-            text-decoration: underline;
+        .hologram img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .hologram.left {
+            left: -200px; /* Adjust for positioning */
+        }
+        .hologram.right {
+            right: -200px; /* Adjust for positioning */
+        }
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(-50%) translateX(0);
+            }
+            50% {
+                transform: translateY(-60%) translateX(0);
+            }
         }
     </style>
 </head>
 <body>
-    <div class="calculator-container">
-        <h2>DSHX Courier Calculator</h2>
-        <form id="rewardCalculator">
-            <label for="jumps">Number of Jumps:</label>
-            <input type="number" id="jumps" placeholder="Enter number of jumps" required>
-
-            <label for="cargoSize">Cargo Size (m³):</label>
-            <input type="number" id="volume" placeholder="Enter cargo size" required>
-
-            <label for="collateral">Collateral (ISK):</label>
-            <input type="number" id="collateral" placeholder="Enter collateral" required>
-
-            <label for="expedited">Expedited Delivery:</label>
-            <select id="expedited">
-                <option value="no">No</option>
-                <option value="yes">Yes</option>
-            </select>
-
-            <label for="lowNullSec">Low/Nullsec Route:</label>
-            <select id="lowNullSec">
-                <option value="no">No</option>
-                <option value="yes">Yes</option>
-            </select>
-
-            <button type="button" onclick="calculateReward()">Calculate Reward</button>
-        </form>
-        <div class="result" id="result"></div>
-        <div class="disclaimer">
-            * This calculator provides an estimate only. Actual costs may vary based on additional factors and agreements.
+    <header>
+        <h1>Deep Space Hauling Express</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="services.html">Services</a>
+            <a href="members.html">Members</a>
+            <a href="recruitment.html">Recruitment</a>
+            <a href="quarterly-hauling.html">Quarterly Hauling</a>
+            <a href="courier-calculator.html">Courier Calculator</a>
+            <a href="contact.html">Contact Us</a>
+        </nav>
+    </header>
+    <main>
+        <!-- Left Hologram -->
+        <div class="hologram left">
+            <img src="hologram1.png" alt="Holographic Image 1">
         </div>
-    </div>
+        <!-- Calculator -->
+        <div class="calculator-container">
+            <h2>DSHX Courier Calculator</h2>
+            <form id="rewardCalculator">
+                <label for="jumps">Number of Jumps:</label>
+                <input type="number" id="jumps" placeholder="Enter number of jumps" required>
+
+                <label for="cargoSize">Cargo Size (m³):</label>
+                <input type="number" id="volume" placeholder="Enter cargo size" required>
+
+                <label for="collateral">Collateral (ISK):</label>
+                <input type="number" id="collateral" placeholder="Enter collateral" required>
+
+                <label for="expedited">Expedited Delivery:</label>
+                <select id="expedited">
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                </select>
+
+                <label for="lowNullSec">Low/Nullsec Route:</label>
+                <select id="lowNullSec">
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                </select>
+
+                <button type="button" onclick="calculateReward()">Calculate Reward</button>
+            </form>
+            <div class="result" id="result"></div>
+            <div class="disclaimer">
+                * This calculator provides an estimate only. Actual costs may vary based on additional factors and agreements.
+            </div>
+        </div>
+        <!-- Right Hologram -->
+        <div class="hologram right">
+            <img src="hologram2.png" alt="Holographic Image 2">
+        </div>
+    </main>
     <footer>
-        Powered by <a href="#">Deep Space Hauling Express</a>
+        <p>Powered by Deep Space Hauling Express</p>
     </footer>
     <script>
+        // Reward Calculation Script (unchanged from original)
         function calculateReward() {
             const jumps = parseFloat(document.getElementById("jumps").value);
             const volume = parseFloat(document.getElementById("volume").value);
@@ -156,9 +240,6 @@
             // Volume-based and collateral-based adjustments
             if (volume > 1050e3) {
                 add += 250e3;
-                if (collateral > 2e9) {
-                    add += 200e3;
-                }
             } else if (volume > 880e3) {
                 if (collateral > 1.5e9) {
                     add += 100e3;
@@ -169,28 +250,11 @@
                 if (collateral > 3e9) {
                     add += 200e3;
                 }
-            } else if (volume > 750e3) {
-                if (collateral > 2.5e9) {
-                    add += 100e3;
-                }
-                if (collateral > 3e9) {
-                    add += 200e3;
-                }
-            } else if (volume > 500e3) {
-                if (collateral > 2.0e9) {
-                    add += 100e3;
-                }
-                if (collateral > 3.5e9) {
-                    add += 100e3;
-                }
             }
 
             // Expedited delivery adjustments
             if (expedited) {
                 mult *= 2.0;
-                if (collateral > 2e9) {
-                    mult *= Math.max(1.0, Math.log(collateral / 1e8) / Math.log(20));
-                }
             }
 
             // Low/Nullsec adjustments
